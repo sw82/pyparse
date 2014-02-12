@@ -1,0 +1,21 @@
+<quiz version="Number" title="String">
+   <attendee>
+      <name>askjbfsdjkf</name>
+      <email></email>
+      <address>
+         <street></street>
+         <postalcode></postalcode>
+         <state></state>
+         <country></country>
+      </address>
+   </attendee>
+   <quizdescripton>
+   </quizdescripton>
+   <questions>
+       <question selected_answer="Number" questionid="Number">
+           <text></text>
+           <answer></answer>
+       
+       </question>
+    </questions>
+</quiz>

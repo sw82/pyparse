@@ -27,7 +27,7 @@ print os.listdir(xmlfolder);
 for filename in os.listdir(xmlfolder):
 	tmpfile = xmlfolder + "/" + filename
 	xmldoc = minidom.parse(tmpfile)
-	itemlist = xmldoc.getElementsByTagName('item')
+	itemlist = xmldoc.getElementsByTagName('attendee')
 	print len(itemlist)
 	#print itemlist[0].attributes['name'].value
 	for s in itemlist :
