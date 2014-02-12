@@ -40,6 +40,9 @@ for filename in os.listdir(xmlfolder):
 
 	now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
+	#TODO get right amount of answers and add this too
+
+
 	#copy stuff to db
 	werte = { "filename" : filename, "timestamp" : now, 
          "name" : xmlDataName, "email" : xmlDataEmail, "richtig" : "0" } 
@@ -50,6 +53,6 @@ for filename in os.listdir(xmlfolder):
 
 
 
-	#move file to archive
+	#TODO move file to archive
 	#destination = xmlarchivefolder + "/" + filename;
 	#os.rename(tmpfile, destination)
