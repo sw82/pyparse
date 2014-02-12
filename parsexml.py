@@ -1,14 +1,14 @@
 #!/usr/bin/python
 
-import os
+import os, datetime
 from xml.dom import minidom
-import sqlite3 
 
 #db stuff
+import sqlite3 
 connection = sqlite3.connect("cb.db")
 cursor = connection.cursor()
-cursor.execute("""CREATE TABLE IF NOT EXISTS cb (
-	filename TEXT, name TEXT, vorname TEXT, richtig INTEGER)""")
+cursor.execute("""CREATE TABLE IF NOT EXISTS cb (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	filename TEXT, name TEXT, vorname TEXT, richtig INTEGER, Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)""")
 
 #folder which contains all xml files
 xmlfolder 	= "xml";
@@ -17,32 +17,39 @@ xmlarchivefolder = "archive";
 # create folders
 if not os.path.exists(xmlfolder):
     os.makedirs(xmlfolder)
-
 if not os.path.exists(xmlarchivefolder):
     os.makedirs(xmlarchivefolder)
 
 # parse each file in xmlfolder, put it to db and mv the file to archive
 print os.listdir(xmlfolder);
 
+# read file
 for filename in os.listdir(xmlfolder):
 	tmpfile = xmlfolder + "/" + filename
 	xmldoc = minidom.parse(tmpfile)
-	itemlist = xmldoc.getElementsByTagName('attendee')
-	print len(itemlist)
-	#print itemlist[0].attributes['name'].value
-	for s in itemlist :
-		print s.attributes['name'].value
+
+	#get name
+	xmlTagName	= xmldoc.getElementsByTagName('name')[0].toxml()
+	xmlDataName	= xmlTagName.replace('<name>','').replace('</name>','')
+	print "Name: " + xmlDataName
+
+	#get email
+	xmlTagEmail	= xmldoc.getElementsByTagName('email')[0].toxml()
+	xmlDataEmail= xmlTagEmail.replace('<email>','').replace('</email>','')
+	print "Email: " + xmlDataEmail
+
+	now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 	#copy stuff to db
-
-	werte = {"filename" : filename, 
-         "name" : "", "vorname" : "", "richtig" : "" } 
-
-	sql = "INSERT INTO cebit VALUES (:filename, :name, :vorname, :richtig)" 
+	werte = { "filename" : filename, "timestamp" : now, 
+         "name" : xmlDataName, "email" : xmlDataEmail, "richtig" : "0" } 
+	sql = "INSERT INTO cb VALUES ( :filename, :name, :email, :richtig, :timestamp)" 
 	cursor.execute(sql, werte)
-
 	connection.commit()
 
+
+
+
 	#move file to archive
-	destination = xmlarchivefolder + "/" + filename;
-	os.rename(tmpfile, destination)
+	#destination = xmlarchivefolder + "/" + filename;
+	#os.rename(tmpfile, destination)

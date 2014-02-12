@@ -1,7 +1,7 @@
 <quiz version="Number" title="String">
    <attendee>
-      <name>adolf</name>
-      <email></email>
+      <name>ada</name>
+      <email>me@best.com</email>
       <address>
          <street></street>
          <postalcode></postalcode>
